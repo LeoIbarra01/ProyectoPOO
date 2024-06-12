@@ -1,4 +1,4 @@
-from flask import Flask, request,render_template,jsonify
+from flask import Flask, request,render_template,url_for,redirect,flash
 from flask_mysqldb import MySQL
 
 
@@ -6,39 +6,36 @@ app= Flask(__name__)
 app.config['MYSQL_HOST']="localhost"
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']=''
-app.config['MYSQL_DB']='bdflask'
+app.config['MYSQL_DB']='albums'
 mysql= MySQL(app)
 
-@app.route('/pruebaConexion')
-def pruebaConexion():
-    try:
-        cursor=mysql.connection.cursor()
-        cursor.execute("Select 1")
-        datos=cursor.fetchone()
-        return jsonify({'status': 'conexion exitosa', 'data':datos})
-    except Exception as ex:
-       return jsonify({'status': 'Error de conexion', 'mensaje':str(ex)})
+app.secret_key='mysecretkey'
 
 @app.route('/')
 def index():
-    return render_template('index1.html')
+    return render_template('index.html')
 
-@app.route('/formulario', methods=['GET'])
-def formulario():
-   if request.method=='GET':
-       titulo= request.form['txtTitulo']
-       artista= request.form['txtArtista']
-       anio= request.form['txtAnio']
-       print(titulo, artista, anio)
-       return 'Datos recibidos en el server'
-   
+@app.route('/guardarAlbum', methods=['POST'])
+def guardarAlbum():
+    if request.method == 'POST':
+        # Tomamos los datos que vienen por POST
+        Ftitulo = request.form['txtTitulo']
+        Fartista = request.form['txtArtista']
+        Fanio = request.form['txtAnio']
+        
+        # Enviamos a la BD sin incluir la columna de clave primaria
+        cursor = mysql.connection.cursor()
+        cursor.execute('INSERT INTO albums(titulo, artista, anio) VALUES (%s, %s, %s)', (Ftitulo, Fartista, Fanio))
+        mysql.connection.commit()
+        flash('Álbum guardado correctamente')
+        return redirect(url_for('index'))
 
-@app.route('/hi/<numero>')
-def hi(numero):
-    return 'numero '+numero+'!!!'
+
 
 #Manejador de exepciones 
-
+@app.errorhandler(404)
+def paginano(e):
+    return'Revisa tu sintaxis, no encontre nada'
 
 if __name__=='__main__':
     app.run(port=3000, debug=True)

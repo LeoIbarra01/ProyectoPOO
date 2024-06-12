@@ -3,22 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME</title>
-    
+    <title>Formulario Albums</title>
 </head>
 <body>
-    <form action="/formulario" method="GET"
+     
+      {% with msj = get_flashed_messages() %}
+      {% if msj %}
+      {%for mensaje in msj%}
+      <h1> {{ mensaje }}</h1>
+      {%endfor%}
+      {%endif%}
+      {%endwith%}
+      
+        <form action="/guardarAlbum" method="post">
 
-        <label >Titulo:</label>
-        <input type="text" name ="txtNombre">
 
-        <label >Artista:</label>
-        <input type="string" name ="txtEdad">
 
+        <label>Titulo:</label>
+        <input type="text" name="txtTitulo">
+
+        <label>Artista</label>
+        <input type="text" name="txtArtista">
+
+
+        <label>Anio</label>
+        <input type="number" name="txtAnio">
+
+        <button type="submit">Guardar Album</button>
+
+
+    </form>
     
-
-        <button type="submit">enviar</button>
-
-    </form> 
 </body>
 </html>
