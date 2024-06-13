@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Albums</title>
+</head>
+<body>
+     
+      {% with msj = get_flashed_messages() %}
+      {% if msj %}
+      {%for mensaje in msj%}
+      <h1> {{ mensaje }}</h1>
+      {%endfor%}
+      {%endif%}
+      {%endwith%}
+      
+        <form action="/registroMedico" method="post">
+
+
+
+        <label>RFC</label>
+        <input type="text" name="txtRFC">
+
+        <label>Nombre</label>
+        <input type="text" name="txtNombre">
+
+
+        <label>Cedula</label>
+        <input type="number" name="txtCedula">
+
+        <label>Correo</label>
+        <input type="number" name="txtCorreo">
+
+        <label>Password</label>
+        <input type="number" name="txtPassword">
+
+        <label>Rol</label>
+        <input type="number" name="txtRol">
+
+        <button type="submit">Registrar</button>
+
+
+    </form>
+    
+</body>
+</html>
