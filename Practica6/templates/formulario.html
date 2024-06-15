@@ -3,45 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Albums</title>
+    <title>Formulario Registro</title>
 </head>
 <body>
      
-      {% with msj = get_flashed_messages() %}
-      {% if msj %}
-      {%for mensaje in msj%}
-      <h1> {{ mensaje }}</h1>
-      {%endfor%}
-      {%endif%}
-      {%endwith%}
+{% with msj = get_flashed_messages() %}
+{% if msj %}
+{% for mensaje in msj %}
+<h1>{{ mensaje }}</h1>
+{% endfor %}
+{% endif %}
+{% endwith %}
       
-        <form action="/registroMedico" method="post">
+<form action="/registrarMedico" method="post">
+    <label>RFC</label>
+    <input type="text" name="txtRfc">
 
+    <label>Nombre</label>
+    <input type="text" name="txtNombre">
 
+    <label>Cedula</label>
+    <input type="text" name="txtCedula">
 
-        <label>RFC</label>
-        <input type="text" name="txtRFC">
+    <label>Correo</label>
+    <input type="email" name="txtCorreo">
 
-        <label>Nombre</label>
-        <input type="text" name="txtNombre">
+    <label>Password</label>
+    <input type="password" name="txtPassword">
 
+    <label>Rol</label>
+    <input type="text" name="txtRol">
 
-        <label>Cedula</label>
-        <input type="number" name="txtCedula">
-
-        <label>Correo</label>
-        <input type="number" name="txtCorreo">
-
-        <label>Password</label>
-        <input type="number" name="txtPassword">
-
-        <label>Rol</label>
-        <input type="number" name="txtRol">
-
-        <button type="submit">Registrar</button>
-
-
-    </form>
+    <button type="submit">Registrar</button>
+</form>
     
 </body>
 </html>
