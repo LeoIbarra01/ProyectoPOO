@@ -13,9 +13,12 @@ app.secret_key = 'mysecretkey'
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
 @app.route('/formulario')
 def formulario():
     return render_template('formulario.html')
+
 
 @app.route('/registrarMedico', methods=['POST'])
 def registrarMedico():
@@ -34,6 +37,24 @@ def registrarMedico():
         mysql.connection.commit()
         flash('Registro Guardado Correctamente')
         return redirect(url_for('formulario'))
+
+
+@app.route('/consultarMedicos')
+def consultarMedicos():
+    try:
+        cursor= mysql.connection.cursor();
+        cursor.execute('select * from tbmedicos1')
+        consultaA= cursor.fetchall()
+        #print(consultaA)
+        return render_template('consultarMedicos.html', tbmedicos1= consultaA)
+
+
+    except Exception as e:
+        print(e)
+        
+
+
+    return render_template('consultarMedicos.html')
 
 # Manejador de excepciones
 @app.errorhandler(404)
