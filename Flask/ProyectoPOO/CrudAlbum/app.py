@@ -13,6 +13,19 @@ app.secret_key='mysecretkey'
 
 @app.route('/')
 def index():
+    try:
+        cursor= mysql.connection.cursor();
+        cursor.execute('select * from albums')
+        consultaA= cursor.fetchall()
+        #print(consultaA)
+        return render_template('index.html', albums= consultaA)
+
+
+    except Exception as e:
+        print(e)
+        
+
+
     return render_template('index.html')
 
 @app.route('/guardarAlbum', methods=['POST'])
@@ -29,8 +42,31 @@ def guardarAlbum():
         mysql.connection.commit()
         flash('Álbum guardado correctamente')
         return redirect(url_for('index'))
+    
 
+@app.route('/editar/<id>')
+def editar(id):
+        cursor = mysql.connection.cursor()
+        cursor.execute('select * from albums where idAlbum=%s', (id))
+        albumE= cursor.fetchone()
+        return render_template('editar.html', album=albumE)
+    
+    
 
+@app.route('/ActualizarAlbum/ <id>', methods=['POST'])
+def ActualizarAlbum(id):
+    if request.method == 'POST':
+        # Tomamos los datos que vienen por POST
+        Ftitulo = request.form['txtTitulo']
+        Fartista = request.form['txtArtista']
+        Fanio = request.form['txtAnio']
+        
+        # Enviamos a la BD sin incluir la columna de clave primaria
+        cursor = mysql.connection.cursor()
+        cursor.execute('update albums set titulo= %s ,artista=%s, anio=%s where idAlbum= %s',  (Ftitulo,Fartista, Fanio, id))
+        mysql.connection.commit()
+        flash('Álbum actualizado correctamente')
+        return redirect(url_for('index'))
 
 #Manejador de exepciones 
 @app.errorhandler(404)

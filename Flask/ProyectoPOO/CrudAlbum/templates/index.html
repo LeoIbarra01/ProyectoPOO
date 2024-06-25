@@ -14,7 +14,11 @@
       {%endfor%}
       {%endif%}
       {%endwith%}
-      
+
+      <H1> Gestion de albums</H1>
+      <br>
+      <br>
+
         <form action="/guardarAlbum" method="post">
 
 
@@ -33,6 +37,40 @@
 
 
     </form>
-    
+
+    <br>
+    <br>
+    <br>
+     
+    <table>
+
+        <thead>
+            <tr>
+                <td>ID:</td>
+                <td>Titulo:</td>
+                <td>Artista:</td>
+                <td>Año:</td>
+                <td>Operaciones:</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+        {%for album in albums%}
+        <td>{{ album.0}}</td>
+        <td>{{ album.1}}</td>
+        <td>{{ album.2}}</td>
+        <td>{{ album.3}}</td>
+        <td> <a href="/editar/{{album.0}}">Editar</a></td>
+        <td> <a href="#">Borrar</a></td>
+
+
+
+        </tr> 
+        {%endfor%}
+        </tbody>
+
+    </table>
+
 </body>
 </html>
