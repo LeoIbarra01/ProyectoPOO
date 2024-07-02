@@ -53,20 +53,33 @@ def editar(id):
     
     
 
-@app.route('/ActualizarAlbum/ <id>', methods=['POST'])
+@app.route('/ActualizarAlbum/<id>', methods=['POST'])
 def ActualizarAlbum(id):
     if request.method == 'POST':
         # Tomamos los datos que vienen por POST
         Ftitulo = request.form['txtTitulo']
         Fartista = request.form['txtArtista']
         Fanio = request.form['txtAnio']
-        
         # Enviamos a la BD sin incluir la columna de clave primaria
         cursor = mysql.connection.cursor()
         cursor.execute('update albums set titulo= %s ,artista=%s, anio=%s where idAlbum= %s',  (Ftitulo,Fartista, Fanio, id))
         mysql.connection.commit()
         flash('Álbum actualizado correctamente')
         return redirect(url_for('index'))
+    
+@app.route('/EliminarAlbum/<id>')
+def EliminarAlbum(id):
+    
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM albums WHERE idAlbum = %s', (id,))
+    mysql.connection.commit()
+    flash('Álbum eliminado correctamente')
+
+    return redirect(url_for('index'))
+
+
+    
+
 
 #Manejador de exepciones 
 @app.errorhandler(404)
