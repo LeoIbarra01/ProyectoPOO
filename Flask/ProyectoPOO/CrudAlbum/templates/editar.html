@@ -6,13 +6,20 @@
 
         <form action="/ActualizarAlbum/{{album.0}}" method="post">
 
+
+          <div class="form-floating mb-3">
+            <input type="text" name="txtTitulo" value="{{album.1}}">
+            <label for="floatingInput">Titulo</label>
+          </div>  
+
+ 
         <label>Titulo:</label>
         <input type="text" name="txtTitulo" value="{{album.1}}">
 
         <label>Artista</label>
         <input type="text" name="txtArtista"  value="{{album.2}}">
 
-        <label>Anio</label>
+        <label>Año</label>
         <input type="number" name="txtAnio"  value="{{album.3}}">
 
         <button type="submit">Editar Album</button>
