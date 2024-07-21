@@ -1,0 +1,83 @@
+{% extends "Plantilla.html" %}
+{% block body %}
+
+{% with msj = get_flashed_messages() %}
+{% if msj %}
+{% for mensaje in msj %}
+<script>
+    Swal.fire({
+        title: "Correcto",
+        text: "Album Guardado",
+        icon: "success",
+    });
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<h1 class="text-center mt-5 mb-5 display-4 text-danger">Gestión de albums</h1>
+<div class="row">
+    <div class="col-md-5">
+        <!-- Aquí va el formulario -->
+        <div class="container">
+            <form action="/guardarAlbum" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label>Titulo:</label>
+                    <input type="text" name="txtTitulo" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Artista:</label>
+                    <input type="text" name="txtArtista" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Año:</label>
+                    <input type="number" name="txtAnio" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Portada:</label>
+                    <input type="file" name="cover" class="form-control" accept=".jpg, .jpeg, .png" required>
+                </div>
+                <button type="submit" class="btn btn-outline-success mt-2 mt-5">Guardar Album</button>
+            </form>
+        </div>
+    </div><!-- Cierra el formulario -->
+    <div class="col-md-7">
+        <!-- Aquí va la tabla -->
+        <div class="container">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Artista</th>
+                        <th scope="col">Año</th>
+                        <th scope="col">Portada</th>
+                        <th scope="col">Operaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for album in albums %}
+                    <tr>
+                        <td>{{ album[0] }}</td>
+                        <td>{{ album[1] }}</td>
+                        <td>{{ album[2] }}</td>
+                        <td>{{ album[3] }}</td>
+                        <td><img src="{{ url_for('static', filename=album[4]) }}" alt="Portada" width="50"></td>
+                        <td>
+                            <a href="/editar/{{ album[0] }}" class="btn btn-warning btn-sm">Editar</a>
+                        </td>
+                        <td>
+                            <form action="/EliminarAlbum/{{ album[0] }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de eliminar el álbum?')">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div><!-- Cierra la tabla -->
+    </div>
+</div>
+
+{% endblock %}

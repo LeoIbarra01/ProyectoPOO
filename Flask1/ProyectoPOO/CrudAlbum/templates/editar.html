@@ -1,0 +1,28 @@
+{% extends "Plantilla.html" %}
+{% block body %}
+<h1>Editar Album</h1>
+
+<div class="container">
+    <form action="/ActualizarAlbum/{{ album[0] }}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label>Titulo:</label>
+            <input type="text" name="txtTitulo" value="{{ album[1] }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Artista:</label>
+            <input type="text" name="txtArtista" value="{{ album[2] }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Año:</label>
+            <input type="number" name="txtAnio" value="{{ album[3] }}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label>Portada Actual:</label><br>
+            <img src="{{ url_for('static', filename=album[4]) }}" alt="Portada" width="100"><br>
+            <label>Cambiar Portada:</label>
+            <input type="file" name="cover" class="form-control" accept=".jpg, .jpeg, .png">
+        </div>
+        <button type="submit" class="btn btn-primary mt-2 mt-7">Editar</button>
+    </form>
+</div>
+{% endblock %}
